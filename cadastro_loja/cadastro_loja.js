@@ -1,9 +1,7 @@
 function formatNumber(number) {
     const cleanedNumber = number.replace(/\D/g, '');
   
-    const isCpf = cleanedNumber.length === 11;
-  
-    const mask = isCpf ? '000.000.000-00' : '00.000.000/0000-00';
+    const mask =  '00.000.000/0000-00';
   
     let formattedNumber = '';
     let index = 0;
@@ -20,7 +18,7 @@ function formatNumber(number) {
   }
 
 function formatInputNumber() {
-  const numberInput = document.getElementById('login-cpf-cnpj');
+  const numberInput = document.getElementById('cadastro-cnpj');
   const inputValue = numberInput.value;
   
   const formattedNumber = formatNumber(inputValue);
