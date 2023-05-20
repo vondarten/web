@@ -1,0 +1,14 @@
+Nome
+CPF
+Idade
+CEP
+
+< api correios >
+Logradouro
+Numero
+Bairro
+cidade
+UF
+
+Categoria_CNH
+
