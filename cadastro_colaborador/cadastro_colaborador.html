@@ -9,6 +9,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./cadastro_colaborador.css">
     <script src="./cadastro_colaborador.js"></script>
+    <script src="/shared/consulta_logradouro.js"></script>
     <title>Cadastro - Colaborador</title>
 </head>
 
@@ -49,23 +50,30 @@
                     </div>
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP">
+                            <input id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos()">
                         </div>
                         <div class="col-6 mb-3">
                             <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Numero">
                         </div>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6"
+                            <input id="cadastro-logradouro" type="text" class="form-control form-control-lg bg-light fs-6"
                                 placeholder="Logradouro">
                         </div>
+
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Bairro">
+                            <input id="cadastro-bairro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Bairro">
                         </div>
+
+                        <div class="input-group mb-3">
+                            <input id="cadastro-complemento" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Complemento">
+                        </div>
+
                         <div class="col-9 mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cidade">
+                            <input id="cadastro-cidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cidade">
                         </div>
+
                         <div class="col-3 mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="UF">
+                            <input id="cadastro-uf" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="UF">
                         </div>
                         <div class="col-12">
                             <select class="form-select form-select-lg bg-light fs-6">
