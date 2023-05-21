@@ -5,6 +5,8 @@ body{
     background: #ececec;
 }
 
+/*------------ Login container ------------*/
+
 .logo-img {
     max-height: 80px;
 }
@@ -12,7 +14,6 @@ body{
 .box-area{
     width: 930px;
 }
-
 
 /*------------ Right box ------------*/
 
@@ -33,6 +34,9 @@ body{
     border-radius: 30px;
 }
 
+.link-table:hover {
+    cursor: pointer;
+}
 
 /*------------ For small screens------------*/
 

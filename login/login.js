@@ -1,7 +1,11 @@
+var isCpf;
+var isCNPJ;
+
 function formatNumber(number) {
     const cleanedNumber = number.replace(/\D/g, '');
   
-    const isCpf = cleanedNumber.length === 11;
+    isCpf = cleanedNumber.length === 11;
+    isCNPJ = cleanedNumber.length === 14;
 
     const mask = isCpf ? '000.000.000-00' : '00.000.000/0000-00';
   
@@ -25,5 +29,10 @@ function formatInputNumber() {
   
   const formattedNumber = formatNumber(inputValue);
   numberInput.value = formattedNumber;
+}
+
+function redirect() {
+  if (isCpf) window.location.pathname = '../../admin_entregador/admin_entregador.html'
+  if (isCNPJ) window.location.pathname = '../../admin_loja/admin_loja.html'
 }
 

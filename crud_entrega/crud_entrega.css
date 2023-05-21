@@ -30,6 +30,9 @@ body{
     border-radius: 30px;
 }
 
+.logo-img {
+    max-height: 80px;
+}
 
 /*------------ For small screens------------*/
 
