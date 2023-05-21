@@ -5,7 +5,9 @@ body{
     background: #ececec;
 }
 
-/*------------ Login container ------------*/
+.logo-img {
+    max-height: 80px;
+}
 
 .box-area{
     width: 930px;
