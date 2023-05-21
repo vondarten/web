@@ -1,0 +1,15 @@
+{
+    "id": 1,
+    "peso": "teste",
+    "altura":"teste",
+    "largura":"teste",
+    "profundida":"teste",
+    "dataPrevista":"teste",
+    "destinario" : {
+        "nome": "teste"
+    },
+    "status" : {
+        "name": "teste"
+    },
+    "observacao": "teste"
+}
