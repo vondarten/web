@@ -2,7 +2,7 @@ function formatNumber(number) {
     const cleanedNumber = number.replace(/\D/g, '');
   
     const isCpf = cleanedNumber.length === 11;
-  
+
     const mask = isCpf ? '000.000.000-00' : '00.000.000/0000-00';
   
     let formattedNumber = '';
