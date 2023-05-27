@@ -27,10 +27,10 @@
             <div class="col-4">
                 <ul class="navbar-nav align-items-center justify-content-center" style="height: 100%;">
                     <li class="nav-item mx-3">
-                        <a class="nav-link navbar-text " href="../admin_entregador/admin_entregador.html">Entregas</a>
+                        <a class="nav-link navbar-text " href="../admin_entregador/admin_entregador.php">Entregas</a>
                     </li>
                     <li class="nav-item mx-3">
-                        <a class="nav-link navbar-text" href="../cadastro_colaborador/cadastro_colaborador.html">Cadastrar colaborador</a>
+                        <a class="nav-link navbar-text" href="../cadastro_colaborador/cadastro_colaborador.php">Cadastrar colaborador</a>
                     </li>
                 </ul>
             </div>
@@ -41,7 +41,7 @@
                         <a class="nav-link navbar-text" href="#"> <span style="color: grey; font-weight: 500;">Olá, </span><b>Entregador</b></a>
                     </li>
                     <li class="nav-item mx-5">
-                        <a class="nav-link navbar-text" href="../login/login.html">Sair</a>
+                        <a class="nav-link navbar-text" href="../login/login.php">Sair</a>
                     </li>
                 </ul>
             </div>
