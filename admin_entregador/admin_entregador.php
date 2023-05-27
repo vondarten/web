@@ -59,7 +59,7 @@
         </div>    
     </nav>
 
-    <div class="container d-flex justify-content-center align-items-center". style="margin-top: 3cm;">
+    <div class="container d-flex justify-content-center align-items-center". style="margin-top: 5%;">
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <form method="POST" action="">
                 <div class="row col-12 ">

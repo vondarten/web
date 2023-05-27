@@ -5,8 +5,6 @@ body{
     background: #bae0ff;
 }
 
-/*------------ Login container ------------*/
-
 .logo-img {
     max-height: 80px;
 }
@@ -15,13 +13,11 @@ body{
     width: 930px;
 }
 
-/*------------ Right box ------------*/
 
 .right-box{
     padding: 40px 30px 40px 40px;
 }
 
-/*------------ Custom Placeholder ------------*/
 
 ::placeholder{
     font-size: 16px;
@@ -41,9 +37,4 @@ body{
 
 .navbar-text:hover {
     color: #333333 !important;
-}
-
-.ola {
-    font-weight: 400 !important;
-    color: grey !important;
 }

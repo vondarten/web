@@ -2,10 +2,9 @@
 
 body{
     font-family: 'Poppins', sans-serif;
-    background: #ececec;
+    background: #bae0ff !important;
 }
 
-/*------------ Login container ------------*/
 
 .logo-img {
     max-height: 80px;
@@ -15,13 +14,11 @@ body{
     width: 930px;
 }
 
-/*------------ Right box ------------*/
 
 .right-box{
     padding: 40px 30px 40px 40px;
 }
 
-/*------------ Custom Placeholder ------------*/
 
 ::placeholder{
     font-size: 16px;
@@ -38,20 +35,11 @@ body{
     cursor: pointer;
 }
 
-/*------------ For small screens------------*/
+.navbar-text {
+    font-weight: 800; 
+    color: #070f52 !important;
+}
 
-@media only screen and (max-width: 768px){
-
-     .box-area{
-        margin: 0 10px;
-
-     }
-     .left-box{
-        height: 100px;
-        overflow: hidden;
-     }
-     .right-box{
-        padding: 20px;
-     }
-
+.navbar-text:hover {
+    color: #333333 !important;
 }
