@@ -1,85 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="./cadastro_loja.css">
-    <script src="./cadastro_loja.js"></script>
-    <script src="/www/web/shared/consulta_logradouro.js"></script>
-    <title>Cadastro - Loja</title>
-</head>
-<body>
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="row border rounded-5 p-3 bg-white shadow box-area">
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $razaoSocial = $_POST['razao-social'];
+    $cnpj = $_POST['cnpj'];
+    $cep = $_POST['cep'];
+    $numero = $_POST['numero'];
+    $logradouro = $_POST['logradouro'];
+    $bairro = $_POST['bairro'];
+    $complemento = $_POST['complemento'];
+    $cidade = $_POST['cidade'];
+    $uf = $_POST['uf'];
+    $senha = $_POST['senha'];
+    $senhaConf = $_POST['senha-conf'];
 
-    <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
-        style="background: #103cbe; background-size: cover; background-position: top; background-image: url('../img/caminhao_bg.jpg');">
-        <div class="featured-image mb-3" style="width: 250px; height: 250px;"></div>
-    </div>
+    if ($senha !== $senhaConf) {
+        die('Error: Senha and Senha Confirm do not match.');
+    }
 
-            <div class="col-md-6 right-box">
-                <div class="row align-items-center">
-                    <div class="text-align-left header-text mb-4">
-                        <h2>Cadastro - Cliente</h2>
-                    </div>
-                    <div class="row">
+    $dbHost = 'localhost';
+    $dbUser = 'root';
+    $dbPass = '';
+    $dbName = 'lojaentregas';
 
-                        <div class="col-12  mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Razão Social">
-                        </div>
+    $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
-                        <div class="col-12 mb-3">
-                            <input id="cadastro-cnpj" type="text" class="form-control form-control-lg bg-light fs-6"
-                                placeholder="CNPJ" onblur="formatInputNumber()">
-                        </div>
+    if ($conn->connect_error) {
+        die('Connection failed: ' . $conn->connect_error);
+    }
 
-                        <div class="col-8 mb-3">
-                            <input id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos()">
-                        </div>
+    $valEnd = $conn->prepare("SELECT `ID_ENDERECO` FROM `ENDERECO` WHERE CEP = ? AND NUMERO = ?");
+    $valEnd->bind_param('ss', $cep, $numero);
+    $valEnd->execute();
+    $resultVal = $valEnd->get_result();
 
-                        <div class="col-4 mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Numero">
-                        </div>
+    if (!$resultVal) {
+        die('Query failed: ' . $conn->error);
+    }
 
-                        <div class="input-group mb-3">
-                            <input id="cadastro-logradouro" type="text" class="form-control form-control-lg bg-light fs-6"
-                                placeholder="Logradouro">
-                        </div>
+    $valEnd->close();
 
-                        <div class="input-group mb-3">
-                            <input id="cadastro-bairro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Bairro">
-                        </div>
+    $row = $resultVal->fetch_assoc();
+    if($row == null){
+        $stmt = $conn->prepare('INSERT INTO ENDERECO (CEP, NUMERO, LOGRADOURO, BAIRRO, COMPLEMENTO, CIDADE, UF) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        $stmt->bind_param('iisssss',$cep, $numero, $logradouro, $bairro, $complemento, $cidade, $uf);
+        $stmt->execute();
+        
+        if ($stmt->affected_rows > 0) {
+            echo 'Data inserted successfully.';
+        } else {
+            echo 'Error: Unable to insert data.';
+        }
+        
+        $stmt->close();
+    
+        $getIDEnd = $conn->prepare("SELECT `ID_ENDERECO` FROM `ENDERECO` WHERE CEP = ? AND NUMERO = ?");
+        $getIDEnd->bind_param('ss', $cep, $numero);
+        $getIDEnd->execute();
+        $result = $getIDEnd->get_result();
 
-                        <div class="input-group mb-3">
-                            <input id="cadastro-complemento" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Complemento">
-                        </div>
+        $getIDEnd->close();
+    
+        if (!$result) {
+            die('Query failed: ' . $conn->error);
+        }
+    
+        $row = $result->fetch_assoc();
+        $idEndereco = $row['ID_ENDERECO'];
+    }
+    else{
+        $idEndereco = $row['ID_ENDERECO'];
+    }
 
-                        <div class="col-9 mb-3">
-                            <input id="cadastro-cidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cidade">
-                        </div>
+    $valLoja = $conn->prepare("SELECT `ID_LOJA` FROM `LOJA` WHERE CNPJ = ?");
+    $valLoja->bind_param('s', $cnpj);
+    $valLoja->execute();
+    $resultValL = $valLoja->get_result();
 
-                        <div class="col-3 mb-3">
-                            <input id="cadastro-uf" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="UF">
-                        </div>
-                
-                        <div class="col-12 mb-3">
-                            <input id="cadastro-senha" type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Senha">
-                        </div>
+    if (!$resultVal) {
+        die('Query failed: ' . $conn->error);
+    }
 
-                        <div class="col-12 mb-3">
-                            <input id="cadastro-senha-conf" type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Confirmar senha">
-                        </div>
+    $rowL = $resultValL->fetch_assoc();
+    if($rowL == null){
+        $stmt = $conn->prepare('INSERT INTO LOJA (RAZAO_SOCIAL, CNPJ, ID_ENDERECO) VALUES (?, ?, ?)');
+        $stmt->bind_param('ssi', $razaoSocial, $cnpj, $idEndereco);
+        $stmt->execute();
+        
+        if ($stmt->affected_rows > 0) {
+            echo 'Data inserted successfully.';
+        } else {
+            echo 'Error: Unable to insert data.';
+        }
+        
+        $stmt->close();
+    }
+    else{
+        die('Usuário já cadastrado');
+    }
 
-                        <div class="input-group mb-3">
-                            <a href="../login/login.html" class="btn btn-lg btn-primary w-100 fs-6">Cadastrar</a>
-                        </div>                        
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+    $conn->close();
+}
+?>
