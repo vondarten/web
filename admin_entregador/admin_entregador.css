@@ -2,7 +2,7 @@
 
 body{
     font-family: 'Poppins', sans-serif;
-    background: #ececec;
+    background: #bae0ff;
 }
 
 /*------------ Login container ------------*/
@@ -34,21 +34,16 @@ body{
     border-radius: 30px;
 }
 
+.navbar-text {
+    font-weight: 800; 
+    color: #070f52 !important;
+}
 
-/*------------ For small screens------------*/
+.navbar-text:hover {
+    color: #333333 !important;
+}
 
-@media only screen and (max-width: 768px){
-
-     .box-area{
-        margin: 0 10px;
-
-     }
-     .left-box{
-        height: 100px;
-        overflow: hidden;
-     }
-     .right-box{
-        padding: 20px;
-     }
-
+.ola {
+    font-weight: 400 !important;
+    color: grey !important;
 }
