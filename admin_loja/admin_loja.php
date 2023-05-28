@@ -150,7 +150,7 @@
                 </tbody>
             </table>
             <div>
-                <button class="btn btn-primary" onclick="window.location.pathname = '../../crud_entrega/crud_entrega.html'">Nova</button>
+                <button class="btn btn-primary" onclick="window.location.pathname = 'www/web/crud_entrega/crud_entrega.php'">Nova</button>
             </div>
         </div>
     </div>

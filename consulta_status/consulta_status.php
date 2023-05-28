@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="input-group mb-3">
-                                <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Cadastrar</button>
+                                <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Consultar</button>
                             </div>
                         </div>
                     </form>
