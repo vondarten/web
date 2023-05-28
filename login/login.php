@@ -25,7 +25,7 @@
                         <h2>Seja bem-vindo(a)!</h2>
                     </div>
                     <div id="alert">
-                        <?php   
+                        <?php
                         // Check for error or success messages in the URL query parameters
                         if (isset($_GET['error'])) {
                             $errorMessage = urldecode($_GET['error']);
@@ -36,26 +36,26 @@
                         ?>
                     </div>
                     <div class="row">
+                        <form name="Cadastro" action="./login_utils.php" method="POST">
+                            <div class="col-12 mb-3">
+                                <input id="login-cpf-cnpj" type="text" name="dados"class="form-control form-control-lg bg-light fs-6" placeholder="CPF ou CNPJ" onblur="formatInputNumber()">
+                            </div>
 
-                        <div class="col-12 mb-3">
-                            <input id="login-cpf-cnpj" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF ou CNPJ" onblur="formatInputNumber()">
-                        </div>
+                            <div class="col-12 mb-3">
+                                <input id="cadastro-uf" type="password" name="senha" class="form-control form-control-lg bg-light fs-6" placeholder="Senha">
+                            </div>
 
-                        <div class="col-12 mb-3">
-                            <input id="cadastro-uf" type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Senha">
-                        </div>
+                            <div class="input-group mb-3">
+                                <button type="submit" class="btn btn-lg btn-primary w-100 fs-6" onclick="redirect()">
+                                    Entrar
+                                </button>
+                            </div>
 
-                        <div class="input-group mb-3">
-                            <button class="btn btn-lg btn-primary w-100 fs-6" onclick="redirect()">
-                                Entrar
-                            </button>
-                        </div>
-
-                        <div class="input-group">
-                            <p>Não possui uma conta?</p> <br>
-                            <a href="../cadastro_loja/cadastro_loja.php" style="text-decoration: none;">&nbsp;&nbsp;Cadastre-se</a>
-                        </div>
-
+                            <div class="input-group">
+                                <p>Não possui uma conta?</p> <br>
+                                <a href="../cadastro_loja/cadastro_loja.php" style="text-decoration: none;">&nbsp;&nbsp;Cadastre-se</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
