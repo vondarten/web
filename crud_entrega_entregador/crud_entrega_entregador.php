@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./crud_entrega_entregador.css">
-    <script src="./crud_entrega_entregador.js"></script>
-    <script src="/shared/consulta_logradouro.js"></script>
+    <script src="../shared/consulta_logradouro.js"></script>
     <title>Admin - Entrega</title>
 </head>
 
@@ -47,8 +46,8 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100" style="margin-top: -5%;">
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <?php
-            $idEncomenda = isset($_COOKIE['idEncomenda']) ? $_COOKIE['idEncomenda'] : null;
-
+            //$idEncomenda = isset($_COOKIE['idEncomenda']) ? $_COOKIE['idEncomenda'] : null;
+            $idEncomenda = 3;
             if ($idEncomenda) {
                 $server = "localhost";
                 $usuario = "root";
@@ -96,7 +95,8 @@
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         $entregador = $row['NOME'];
-                        $entregadorCPF = $row['CPF'];
+                        $value = $row['CPF'];
+                        $entregadorCPF = substr($value, 0, 3) . '.' . substr($value, 3, 3) . '.' . substr($value, 6, 3) . '-' . substr($value, 9, 2);
                     }
 
                     $query = "SELECT * FROM LOJA WHERE ID_LOJA = :idLoja";
@@ -108,7 +108,8 @@
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         $loja = $row['RAZAO_SOCIAL'];
-                        $lojaCNPJ = $row['CNPJ'];
+                        $value = $row['CNPJ'];
+                        $lojaCNPJ = substr($value, 0, 2) . '.' . substr($value, 2, 3) . '.' . substr($value, 5, 3) . '/' . substr($value, 8, 4) . '-' . substr($value, 12, 2);
                     }
 
                     $query = "SELECT * FROM DESTINATARIO WHERE ID_DESTINATARIO = :idDestinatario";
@@ -120,7 +121,12 @@
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         $destinatario = $row['NOME'];
-                        $destinatarioCPFCNJP = $row['CPF_CNPJ'];
+                        $value = $row['CPF_CNPJ'];
+                        if(strlen($value) === 11)
+                            $destinatarioCPFCNJP = substr($value, 0, 3) . '.' . substr($value, 3, 3) . '.' . substr($value, 6, 3) . '-' . substr($value, 9, 2);
+                        else
+                            $destinatarioCPFCNJP = substr($value, 0, 2) . '.' . substr($value, 2, 3) . '.' . substr($value, 5, 3) . '/' . substr($value, 8, 4) . '-' . substr($value, 12, 2);
+
                         $idEndereco = $row['ID_ENDERECO'];
                     }
 
@@ -154,12 +160,20 @@
                 }
             }
             ?>
-            <form>
+            <form name="Cadastro" action="crud_entrega_entregador_utils.php" method="POST">
                 <div class="col-md-12">
                     <div class="row align-items-center">
                         <div class="text-center header-text mb-4">
                             <h3>Encomenda</h3>
                         </div>
+                        <?php
+                        if (isset($_GET['error'])) {
+                            $errorMessage = urldecode($_GET['error']);
+                            echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>';
+                        } elseif (isset($_GET['success'])) {
+                            echo '<div class="alert alert-success" role="alert">Cadastrado com sucesso.</div>';
+                        }
+                        ?>
                         <div class="row">
                             <div class="col-4  mb-3">
                                 <input name = "id" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº" value=<?php echo isset($id) ? $id : ''; ?>>
@@ -176,39 +190,42 @@
                             <div class="col-2 mb-3">
                                 <input name="profundidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Profundidade" value=<?php echo isset($profundidade) ? $profundidade : ''; ?>>
                             </div>
-                            <div class="col-4" mb-3>
+                            <div class="col-4 mb-3">
                                 <select name="status" class="form-select form-select-lg bg-light fs-6">
                                     <option selected disabled hidden>Status</option>
                                 </select>
                             </div>
-                            <div class="col-8 mb-3">
+                            <div class="col-4 mb-3">
                                 <input name="observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação" value=<?php echo isset($observacao) ? $observacao : ''; ?>>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-9  mb-3">
-                                <input name="destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Destinatário" value=<?php echo isset($destinatario) ? $destinatario : ''; ?>>
-                            </div>
-                            <div class="col-3 mb-3">
-                                <input id="login-cpf-cnpj" name="cpf_destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber()" 
-                                value=<?php echo isset($destinatarioCPFCNJP) ? $destinatarioCPFCNJP : ''; ?>>
+                            <div class="col-4 mb-3">
+                                <input name="dataPrevista" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Data Prevista" value=<?php echo isset($data_prevista) ? $data_prevista : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-9  mb-3">
-                                <input name="entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador" value=<?php echo isset($entregador) ? $entregador : ''; ?>>
-                            </div>
                             <div class="col-3 mb-3">
                                 <input id="login-cpf-cnpj" name='cpf_entregador' type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF" onblur="formatInputNumber()"
                                 value=<?php echo isset($entregadorCPF) ? $entregadorCPF : ''; ?>>
                             </div>
+                            <div class="col-9  mb-3">
+                                <input name="entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador" value=<?php echo isset($entregador) ? $entregador : ''; ?>>
+                            </div>
                         </div>
                         <div class="row">
+                            <div class="col-3 mb-3">
+                                <input id="login-cpf-cnpj" name="cnpj_loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF" onblur="formatInputNumber()" value=<?php echo isset($lojaCNPJ) ? $lojaCNPJ : ''; ?>>
+                            </div>
                             <div class="col-9  mb-3">
                                 <input type="text" name="loja"class="form-control form-control-lg bg-light fs-6" placeholder="Loja" value=<?php echo isset($loja) ? $loja : ''; ?>>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-3 mb-3">
-                                <input id="login-cpf-cnpj" name="cnpj_loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF" onblur="formatInputNumber()" value=<?php echo isset($lojaCNPJ) ? $lojaCNPJ : ''; ?>>
+                                <input id="login-cpf-cnpj" name="cpf_destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber()" 
+                                value=<?php echo isset($destinatarioCPFCNJP) ? $destinatarioCPFCNJP : ''; ?>>
+                            </div>
+                            <div class="col-9  mb-3">
+                                <input name="destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Destinatário" value=<?php echo isset($destinatario) ? $destinatario : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
@@ -243,25 +260,113 @@
                         </div>
 
                         <div class="row col-12 justify-content-center">
-
                             <div class="col-4">
-                                <button class="btn btn-lg btn-success w-100 fs-6">Cadastrar</button>
+                                <button disabled type="submit" name="action" id="confirmar-button" class="btn btn-lg btn-success w-100 fs-6" value="update">Confirmar</button>
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-lg btn-warning w-100 fs-6">Alterar</button>
+                                <button type="button" id="alterar-button" class="btn btn-lg btn-warning w-100 fs-6">Alterar</button>
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-lg btn-danger w-100 fs-6">Excluir</button>
+                                <button type="submit" name="action" class="btn btn-lg btn-danger w-100 fs-6" value="delete">Excluir</button>
                             </div>
-
-
                         </div>
-
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        function formatNumber(number) {
+            const cleanedNumber = number.replace(/\D/g, '');
+
+            const isCpf = cleanedNumber.length === 11;
+
+            const mask = isCpf ? '000.000.000-00' : '00.000.000/0000-00';
+
+            let formattedNumber = '';
+            let index = 0;
+            for (let i = 0; i < mask.length; i++) {
+                if (mask[i] === '0') {
+                    formattedNumber += cleanedNumber[index] || '';
+                    index++;
+                } else {
+                    formattedNumber += mask[i];
+                }
+            }
+
+            return formattedNumber;
+        }
+
+        function formatInputNumber(id) {
+            const numberInput = document.getElementById(id);
+            const inputValue = numberInput.value;
+
+            const formattedNumber = formatNumber(inputValue);
+            numberInput.value = formattedNumber;
+        }
+
+
+        const orderN = document.getElementById('order-n');
+        const orderPeso = document.getElementById('order-peso');
+        const orderAltura = document.getElementById('order-altura');
+
+        const orderLargura = document.getElementById('order-largura');
+        const orderProfundidade = document.getElementById('order-profundidade');
+        const orderObservacao = document.getElementById('order-observacao');
+        const orderDestinatario = document.getElementById('order-destinatario');
+        // 3 iguais
+        const orderCPF_CNPJ_Dest = document.getElementById('login-cpf-cnpj-dest');
+        const orderCPF_CNPJ_Entregador = document.getElementById('login-cpf-cnpj-entregador');
+        const orderCPF_CNPJ_Loja = document.getElementById('login-cpf-cnpj-loja');
+        const orderEntregador = document.getElementById('order-entregador');
+        const orderLoja = document.getElementById('order-loja');
+        const orderCEP = document.getElementById('cadastro-cep');
+        const orderNumero = document.getElementById('cadastro-numero');
+        const orderLogradouro = document.getElementById('cadastro-logradouro');
+        const orderBairro = document.getElementById('cadastro-bairro');
+        const orderCidade = document.getElementById('cadastro-cidade');
+        const orderUF = document.getElementById('cadastro-uf');
+        const orderComplemento = document.getElementById('cadastro-complemento');
+
+        const alterarButton = document.getElementById('alterar-button');
+        const confirmarButton = document.getElementById('confirmar-button');
+
+
+
+        confirmarButton.addEventListener('click', function() {
+           confirmarButton.disabled = !confirmarButton.disabled
+        })
+
+        alterarButton.addEventListener('click', function() {
+            confirmarButton.disabled = !confirmarButton.disabled
+            invertFields()
+        });
+
+        function invertFields() {
+            orderN.disabled = !orderN.disabled;
+            orderPeso.disabled = !orderPeso.disabled;
+            orderAltura.disabled = !orderAltura.disabled;
+            orderLargura.disabled = !orderLargura.disabled;
+            orderProfundidade.disabled = !orderProfundidade.disabled;
+            orderObservacao.disabled = !orderObservacao.disabled;
+            orderDestinatario.disabled = !orderDestinatario.disabled;
+
+            orderCPF_CNPJ_Dest.disabled = !orderCPF_CNPJ_Dest.disabled;
+            orderCPF_CNPJ_Entregador.disabled = !orderCPF_CNPJ_Entregador.disabled;
+            orderCPF_CNPJ_Loja.disabled = !orderCPF_CNPJ_Loja.disabled;
+
+            orderEntregador.disabled = !orderEntregador.disabled;
+            orderLoja.disabled = !orderLoja.disabled;
+            orderCEP.disabled = !orderCEP.disabled;
+            orderNumero.disabled = !orderNumero.disabled;
+            orderLogradouro.disabled = !orderLogradouro.disabled;
+            orderBairro.disabled = !orderBairro.disabled;
+            orderCidade.disabled = !orderCidade.disabled;
+            orderUF.disabled = !orderUF.disabled;
+            orderComplemento.disabled = !orderComplemento.disabled;
+        }
+    </script>
 </body>
+
 
 </html>
