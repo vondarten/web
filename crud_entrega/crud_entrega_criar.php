@@ -47,198 +47,100 @@
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100" style="margin-top: -5%;">
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
-            <?php
-            //$idEncomenda = isset($_COOKIE['idEncomenda']) ? $_COOKIE['idEncomenda'] : null;
-            $idEncomenda = 1;
-
-            if ($idEncomenda) {
-                $server = "localhost";
-                $usuario = "root";
-                $senha = "";
-                $banco = "lojaentregas";
-
-                try {
-                    $dsn = "mysql:host=$server;dbname=$banco;charset=utf8mb4";
-                    $options = [
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                        PDO::ATTR_EMULATE_PREPARES => false,
-                    ];
-
-                    $pdo = new PDO($dsn, $usuario, $senha, $options);
-                } catch (PDOException $e) {
-                    die('Connection failed: ' . $e->getMessage());
-                }
-
-                $query = "SELECT * FROM ENCOMENDA WHERE ID_ENCOMENDA = :idEncomenda";
-                $stmt = $pdo->prepare($query);
-                $stmt->bindParam(':idEncomenda', $idEncomenda);
-                $stmt->execute();
-
-                if ($stmt->rowCount() > 0) {
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                    $id = $row['ID_ENCOMENDA'];
-                    $peso = $row['PESO'];
-                    $altura = $row['ALTURA'];
-                    $largura = $row['LARGURA'];
-                    $profundidade = $row['PROFUNDIDADE'];
-                    $data_prevista = $row['DATA_PREVISTA'];
-                    $observacao = $row['OBSERVACAO'];
-                    $idEntregador = $row['ID_ENTREGADOR'];
-                    $idLoja = $row['ID_LOJA'];
-                    $idDestinatario = $row['ID_DESTINATARIO'];
-                    $idStatus = $row['ID_STATUS'];
-
-                    $query = "SELECT * FROM ENTREGADOR WHERE ID_ENTREGADOR = :idEntregador";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindParam(':idEntregador', $idEntregador);
-                    $stmt->execute();
-
-                    if ($stmt->rowCount() > 0) {
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        $entregador = $row['NOME'];
-                        $entregadorCPF = $row['CPF'];
-                    }
-
-                    $query = "SELECT * FROM LOJA WHERE ID_LOJA = :idLoja";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindParam(':idLoja', $idLoja);
-                    $stmt->execute();
-
-                    if ($stmt->rowCount() > 0) {
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        $loja = $row['RAZAO_SOCIAL'];
-                        $lojaCNPJ = $row['CNPJ'];
-                    }
-
-                    $query = "SELECT * FROM DESTINATARIO WHERE ID_DESTINATARIO = :idDestinatario";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindParam(':idDestinatario', $idDestinatario);
-                    $stmt->execute();
-
-                    if ($stmt->rowCount() > 0) {
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        $destinatario = $row['NOME'];
-                        $destinatarioCPFCNJP = $row['CPF_CNPJ'];
-                        $idEndereco = $row['ID_ENDERECO'];
-                    }
-
-                    $query = "SELECT * FROM STATUS WHERE ID_STATUS = :idStatus";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindParam(':idStatus', $idStatus);
-                    $stmt->execute();
-
-                    if ($stmt->rowCount() > 0) {
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        $status = $row['NOME'];
-                    }
-
-                    $query = "SELECT * FROM ENDERECO WHERE ID_ENDERECO = :idEndereco";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->bindParam(':idEndereco', $idEndereco);
-                    $stmt->execute();
-
-                    if ($stmt->rowCount() > 0) {
-                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        $cep = $row['CEP'];
-                        $numero = $row['NUMERO'];
-                        $logradouro = $row['LOGRADOURO'];
-                        $bairro = $row['BAIRRO'];
-                        $complemento = $row['COMPLEMENTO'];
-                        $cidade = $row['CIDADE'];
-                        $uf = $row['UF'];
-                    }
-                }
-            }
-            ?>
-            <form name="Cadastro" action="crud_entrega_util.php" method="POST">
+            <form name="Cadastro" action="crud_entrega_criar_util.php" method="POST">
                 <div class="col-md-12">
                     <div class="row align-items-center">
                         <div class="text-center header-text mb-4">
                             <h3>Encomenda</h3>
                         </div>
+                        <div id="alert">
+                        <?php
+                        // Check for error or success messages in the URL query parameters
+                        if (isset($_GET['error'])) {
+                            $errorMessage = urldecode($_GET['error']);
+                            echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>';
+                        } elseif (isset($_GET['success'])) {
+                            echo '<div class="alert alert-success" role="alert">Cadastrado com sucesso.</div>';
+                        }
+                        ?>
+                        </div>
                         <div class="row">
                             <div class="col-4  mb-3">
-                                <input id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº" value=<?php echo isset($id) ? $id : ''; ?>>
+                                <input name="id" id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº">
                             </div>
                             <div class="col-2 mb-3">
-                                <input id="order-peso" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Peso" value=<?php echo isset($peso) ? $peso : ''; ?>>
+                                <input name="peso" id="order-peso" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Peso">
                             </div>
                             <div class="col-2 mb-3">
-                                <input id="order-altura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Altura" value=<?php echo isset($altura) ? $altura : ''; ?>>
+                                <input name="altura" id="order-altura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Altura" value=<?php echo isset($altura) ? $altura : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
-                                <input id="order-largura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Largura" value=<?php echo isset($largura) ? $largura : ''; ?>>
+                                <input name="largura" id="order-largura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Largura" value=<?php echo isset($largura) ? $largura : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
-                                <input id="order-profundidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Profundidade" value=<?php echo isset($profundidade) ? $profundidade : ''; ?>>
+                                <input name="profundidade" id="order-profundidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Profundidade" value=<?php echo isset($profundidade) ? $profundidade : ''; ?>>
                             </div>
                             <div class="col-4" mb-3>
                                 <select class="form-select form-select-lg bg-light fs-6">
-                                    <option selected hidden>Status</option>
+                                    <option name="status" selected hidden>Status</option>
                                 </select>
                             </div>
                             <div class="col-8 mb-3">
-                                <input id="order-observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação" value=<?php echo isset($observacao) ? $observacao : ''; ?>>
+                                <input name="observacao" id="order-observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação" value=<?php echo isset($observacao) ? $observacao : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-9  mb-3">
-                                <input id="order-destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Destinatário" value=<?php echo isset($destinatario) ? $destinatario : ''; ?>>
+                                <input name="destinatario" id="order-destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Destinatário" value=<?php echo isset($destinatario) ? $destinatario : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input id="login-cpf-cnpj-dest" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-dest')" value=<?php echo isset($destinatarioCPFCNJP) ? $destinatarioCPFCNJP : ''; ?>>
+                                <input name="destinatarioCPFCNPJ" id="login-cpf-cnpj-dest" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-dest')" value=<?php echo isset($destinatarioCPFCNJP) ? $destinatarioCPFCNJP : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-9  mb-3">
-                                <input id="order-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador" value=<?php echo isset($entregador) ? $entregador : ''; ?>>
+                                <input name="entregador" id="order-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador" value=<?php echo isset($entregador) ? $entregador : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input id="login-cpf-cnpj-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-entregador')" value=<?php echo isset($entregadorCPF) ? $entregadorCPF : ''; ?>>
+                                <input name="entregadorCPF" id="login-cpf-cnpj-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-entregador')" value=<?php echo isset($entregadorCPF) ? $entregadorCPF : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-9  mb-3">
-                                <input id="order-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Loja" value=<?php echo isset($loja) ? $loja : ''; ?>>
+                                <input name="loja" id="order-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Loja" value=<?php echo isset($loja) ? $loja : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input id="login-cpf-cnpj-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-loja')" value=<?php echo isset($lojaCNPJ) ? $lojaCNPJ : ''; ?>>
+                                <input name="lojaCNPJ" id="login-cpf-cnpj-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-loja')" value=<?php echo isset($lojaCNPJ) ? $lojaCNPJ : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-3 mb-3">
-                                <input id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos() value=<?php echo isset($cep) ? $cep : ''; ?>">
+                                <input name="cep" id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos() value=<?php echo isset($cep) ? $cep : ''; ?>">
                             </div>
                             <div class="col-3 mb-3">
-                                <input id="cadastro-numero" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Numero" value=<?php echo isset($numero) ? $numero : ''; ?>>
+                                <input name="numero" id="cadastro-numero" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Numero" value=<?php echo isset($numero) ? $numero : ''; ?>>
                             </div>
                             <div class="col-6 mb-3">
-                                <input id="cadastro-logradouro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Logradouro" value=<?php echo isset($logradouro) ? $logradouro : ''; ?>>
+                                <input name="logradouro" id="cadastro-logradouro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Logradouro" value=<?php echo isset($logradouro) ? $logradouro : ''; ?>>
                             </div>
                             <div class="col-6 mb-3">
-                                <input id="cadastro-bairro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Bairro" value=<?php echo isset($bairro) ? $bairro : ''; ?>>
+                                <input name="bairro" id="cadastro-bairro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Bairro" value=<?php echo isset($bairro) ? $bairro : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input id="cadastro-cidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cidade" value=<?php echo isset($cidade) ? $cidade : ''; ?>>
+                                <input name="cidade" id="cadastro-cidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cidade" value=<?php echo isset($cidade) ? $cidade : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input id="cadastro-uf" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="UF" value=<?php echo isset($uf) ? $uf : ''; ?>>
+                                <input name="uf" id="cadastro-uf" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="UF" value=<?php echo isset($uf) ? $uf : ''; ?>>
                             </div>
                             <div class="input-group mb-3">
-                                <input id="cadastro-complemento" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Complemento" value=<?php echo isset($complemento) ? $complemento : ''; ?>>
+                                <input name="complemento" id="cadastro-complemento" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Complemento" value=<?php echo isset($complemento) ? $complemento : ''; ?>>
                             </div>
                         </div>
 
                         <div class="row col-12 justify-content-center">
 
                             <div class="col-4">
-                                <button type="submit" name="action" id="confirmar-button" class="btn btn-lg btn-success w-100 fs-6" value="update" onclick="window.location.pathname = 'www/web/admin_loja/admin_loja.php'">Cadastrar</button>
+                                <button type="submit" name="action" id="confirmar-button" class="btn btn-lg btn-success w-100 fs-6" value="update">Cadastrar</button>
                             </div>
                         </div>
                     </div>
