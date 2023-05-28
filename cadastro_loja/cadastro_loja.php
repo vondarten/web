@@ -47,7 +47,6 @@
                     </div>
                     <div id="alert">
                         <?php
-                        // Check for error or success messages in the URL query parameters
                         if (isset($_GET['error'])) {
                             $errorMessage = urldecode($_GET['error']);
                             echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>';
