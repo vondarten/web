@@ -82,8 +82,8 @@
                             <input disabled id="order-destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Destinatário">
                         </div>
                         <div class="col-3 mb-3">
-                            <input disabled id="login-cpf-cnpj" type="text" class="form-control form-control-lg bg-light fs-6"
-                                placeholder="CPF/CNPJ" onblur="formatInputNumber()">
+                            <input disabled id="login-cpf-cnpj-dest" type="text" class="form-control form-control-lg bg-light fs-6"
+                                placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-dest')">
                         </div>
                     </div>
                     <div class="row">
@@ -91,8 +91,8 @@
                             <input disabled id="order-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador">
                         </div>
                         <div class="col-3 mb-3">
-                            <input disabled id="login-cpf-cnpj" type="text" class="form-control form-control-lg bg-light fs-6"
-                                placeholder="CPF/CNPJ" onblur="formatInputNumber()">
+                            <input disabled id="login-cpf-cnpj-entregador" type="text" class="form-control form-control-lg bg-light fs-6"
+                                placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-entregador')">
                         </div>
                     </div>
                     <div class="row">
@@ -100,8 +100,8 @@
                             <input disabled id="order-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Loja">
                         </div>
                         <div class="col-3 mb-3">
-                            <input disabled id="login-cpf-cnpj" type="text" class="form-control form-control-lg bg-light fs-6"
-                                placeholder="CPF/CNPJ" onblur="formatInputNumber()">
+                            <input disabled id="login-cpf-cnpj-loja" type="text" class="form-control form-control-lg bg-light fs-6"
+                                placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-loja')">
                         </div>
                     </div>
                     <div class="row">
@@ -151,6 +151,36 @@
 
     <script>
 
+        function formatNumber(number) {
+            const cleanedNumber = number.replace(/\D/g, '');
+        
+            const isCpf = cleanedNumber.length === 11;
+
+            const mask = isCpf ? '000.000.000-00' : '00.000.000/0000-00';
+        
+            let formattedNumber = '';
+            let index = 0;
+            for (let i = 0; i < mask.length; i++) {
+            if (mask[i] === '0') {
+                formattedNumber += cleanedNumber[index] || '';
+                index++;
+            } else {
+                formattedNumber += mask[i];
+            }
+            }
+        
+            return formattedNumber;
+        }
+
+        function formatInputNumber(id) {
+        const numberInput = document.getElementById(id);
+        const inputValue = numberInput.value;
+        
+        const formattedNumber = formatNumber(inputValue);
+        numberInput.value = formattedNumber;
+        }
+
+
         const orderN = document.getElementById('order-n');
         const orderPeso = document.getElementById('order-peso');
         const orderAltura = document.getElementById('order-altura');
@@ -160,7 +190,9 @@
         const orderObservacao = document.getElementById('order-observacao');
         const orderDestinatario = document.getElementById('order-destinatario');
         // 3 iguais
-        const orderCPF_CNPJ = document.getElementById('login-cpf-cnpj');
+        const orderCPF_CNPJ_Dest = document.getElementById('login-cpf-cnpj-dest');
+        const orderCPF_CNPJ_Entregador = document.getElementById('login-cpf-cnpj-entregador');
+        const orderCPF_CNPJ_Loja = document.getElementById('login-cpf-cnpj-loja');
         const orderEntregador = document.getElementById('order-entregador');
         const orderLoja = document.getElementById('order-loja');
         const orderCEP = document.getElementById('cadastro-cep');
@@ -202,7 +234,11 @@
             orderProfundidade.disabled = !orderProfundidade.disabled; 
             orderObservacao.disabled = !orderObservacao.disabled;
             orderDestinatario.disabled = !orderDestinatario.disabled;
-            orderCPF_CNPJ.disabled = !orderCPF_CNPJ.disabled;
+            
+            orderCPF_CNPJ_Dest.disabled = !orderCPF_CNPJ_Dest.disabled;
+            orderCPF_CNPJ_Entregador.disabled = !orderCPF_CNPJ_Entregador.disabled;
+            orderCPF_CNPJ_Loja.disabled = !orderCPF_CNPJ_Loja.disabled;
+
             orderEntregador.disabled = !orderEntregador.disabled;
             orderLoja.disabled = !orderLoja.disabled;
             orderCEP.disabled = !orderCEP.disabled;
