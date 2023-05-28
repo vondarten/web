@@ -17,7 +17,7 @@
             xhttp.send("rowID=" + rowID);
 
             // Redirect to the desired page
-            window.location.href = "/www/web/crud_entrega/crud_entrega.html";
+            window.location.href = "/web/crud_entrega/crud_entrega.php";
         }
     </script>
     <script src="/shared/consulta_logradouro.js"></script>
@@ -91,7 +91,12 @@
                 </thead>
                 <tbody id="table-body">
                 <?php
-                    
+                    if(isset($_COOKIE['idEntregador'])){
+                        $idEntregador = $_COOKIE['idEntregador'];
+                    }
+                    else{
+                        $idEntregado = 1;
+                    }
                     // Connect to your MySQL database
                     $server = "localhost";
                     $usuario = "root";
@@ -107,21 +112,21 @@
                     if (isset($_POST['searchButton'])) {
                         $searchNumber = $_POST['searchNumber'];
                         if($searchNumber==null){
-                            $result = $conn->query("SELECT * FROM encomenda");
+                            $result = $conn->query("SELECT * FROM encomenda WHERE ID_ENTREGADOR = $idEntregador");
                             if (!$result) {
                                 die('Query failed: ' . $conn->error);
                             }
                         }
                         else{
                             // Query the database based on the search number
-                            $result = $conn->query("SELECT * FROM encomenda WHERE ID_ENCOMENDA = $searchNumber");
+                            $result = $conn->query("SELECT * FROM encomenda WHERE ID_ENTREGADOR = $idEntregador AND ID_ENCOMENDA = $searchNumber");
                             if (!$result) {
                                 die('Query failed: ' . $conn->error);
                             }
                         }
                     } else {
                         // If the search button is not clicked, retrieve all records
-                        $result = $conn->query("SELECT * FROM encomenda");
+                        $result = $conn->query("SELECT * FROM encomenda WHERE ID_ENTREGADOR = $idEntregador");
                         if (!$result) {
                             die('Query failed: ' . $conn->error);
                         }
@@ -152,12 +157,11 @@
 
                     if (isset($_POST['rowClicked'])) {
                         // Set the cookie
-                        $name = "username";
-                        $value = "John Doe";
+                        $name = "idEntregador";
                         $expiry = time() + (86400 * 30); // Expiry time in seconds (30 days from now)
                         $path = "/"; // Path on the domain where the cookie is accessible
                     
-                        setcookie($name, $value, $expiry, $path);
+                        setcookie($name, $idEntregador, $expiry, $path);
                     }
                     ?>
                 </tbody>
