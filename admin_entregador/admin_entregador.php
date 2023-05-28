@@ -16,7 +16,6 @@
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("rowID=" + rowID);
 
-            // Redirect to the desired page
             window.location.href = "../../web/crud_entrega_entregador/crud_entrega_entregador.php";
         }
     </script>
