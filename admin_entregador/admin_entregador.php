@@ -12,7 +12,7 @@
         function setCookieAndRedirect(rowID) {
             // Send a POST request to the PHP file with the row ID
             var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "your_php_file.php", true);
+            xhttp.open("POST", "admin_entregador_utils.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("rowID=" + rowID);
 
@@ -154,15 +154,6 @@
                     
                     // Close the database connection
                     $conn->close();
-
-                    if (isset($_POST['rowClicked'])) {
-                        // Set the cookie
-                        $name = "idEntregador";
-                        $expiry = time() + (86400 * 30); // Expiry time in seconds (30 days from now)
-                        $path = "/"; // Path on the domain where the cookie is accessible
-                    
-                        setcookie($name, $idEntregador, $expiry, $path);
-                    }
                     ?>
                 </tbody>
             </table>
