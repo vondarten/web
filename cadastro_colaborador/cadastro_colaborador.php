@@ -81,6 +81,17 @@
                         <div class="text-align-left header-text mb-4">
                             <h3>Cadastro - Colaborador</h3>
                         </div>
+                        <div id="alert">
+                        <?php
+                        // Check for error or success messages in the URL query parameters
+                        if (isset($_GET['error'])) {
+                            $errorMessage = urldecode($_GET['error']);
+                            echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>';
+                        } elseif (isset($_GET['success'])) {
+                            echo '<div class="alert alert-success" role="alert">Cadastrado com sucesso.</div>';
+                        }
+                        ?>
+                    </div>
                         <div class="row">
                             <div class="col-12  mb-3">
                                 <input type="text" name="nome" class="form-control form-control-lg bg-light fs-6" placeholder="Nome">
@@ -120,7 +131,7 @@
                             </div>
                             <div class="col-12">
                                 <select name="cat_cnh" class="form-select form-select-lg bg-light fs-6">
-                                    <option selected hidden disabled>Categoria CNH</option>
+                                    <option selected hidden disabled value="null">Categoria CNH</option>
                                     <option value="B">B</option>
                                     <option value="C">C</option>
                                     <option value="D">D</option>
