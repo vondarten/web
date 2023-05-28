@@ -93,9 +93,10 @@
                 <?php
                     if(isset($_COOKIE['idEntregador'])){
                         $idEntregador = $_COOKIE['idEntregador'];
+                        echo"<p> $idEntregador;</p>";
                     }
                     else{
-                        $idEntregado = 1;
+                        $idEntregador = 1;
                     }
                     // Connect to your MySQL database
                     $server = "localhost";
