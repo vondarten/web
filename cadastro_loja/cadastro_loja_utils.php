@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $rowL = $resultValL->fetch_assoc();
     if($rowL == null){
-        $stmt = $conn->prepare('INSERT INTO LOJA (RAZAO_SOCIAL, CNPJ, SENHA, ID_ENDERECO) VALUES (?, ?, ?,?)');
+        $stmt = $conn->prepare('INSERT INTO LOJA (RAZAO_SOCIAL, CNPJ, SENHA, ID_ENDERECO) VALUES (?, ?, ?, ?)');
         $stmt->bind_param('sssi', $razaoSocial, $cnpj, $senha, $idEndereco);
         $stmt->execute();
         
