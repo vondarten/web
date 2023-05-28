@@ -1,7 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $razaoSocial = $_POST['razao-social'];
-    $cnpj = $_POST['cnpj'];
+    $string = $_POST['cnpj'];
+    $cnpj = str_replace(array('.', '/','-'), '', $string);
     $cep = $_POST['cep'];
     $numero = $_POST['numero'];
     $logradouro = $_POST['logradouro'];
@@ -86,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $rowL = $resultValL->fetch_assoc();
     if($rowL == null){
-        $stmt = $conn->prepare('INSERT INTO LOJA (RAZAO_SOCIAL, CNPJ, ID_ENDERECO) VALUES (?, ?, ?)');
-        $stmt->bind_param('ssi', $razaoSocial, $cnpj, $idEndereco);
+        $stmt = $conn->prepare('INSERT INTO LOJA (RAZAO_SOCIAL, CNPJ, SENHA, ID_ENDERECO) VALUES (?, ?, ?)');
+        $stmt->bind_param('ssi', $razaoSocial, $cnpj, $senha, $idEndereco);
         $stmt->execute();
         
         if ($stmt->affected_rows > 0) {
