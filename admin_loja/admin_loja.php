@@ -7,6 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./admin_loja.css">
+
+    <script>
+        function setCookieAndRedirect(rowID) {
+            // Send a POST request to the PHP file with the row ID
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "admin_loja_utils.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("rowID=" + rowID);
+
+            window.location.href = "../../web/crud_entrega/crud_entrega_novo.php";
+        }
+    </script>
+
     <script src="./admin_loja.js"></script>
     <script src="/shared/consulta_logradouro.js"></script>
     <title>Admin - Loja</title>
@@ -137,20 +150,11 @@
 
                     // Close the database connection
                     $conn->close();
-
-                    if (isset($_POST['rowClicked'])) {
-                        // Set the cookie
-                        $name = "idLoja";
-                        $expiry = time() + (86400 * 30); // Expiry time in seconds (30 days from now)
-                        $path = "/"; // Path on the domain where the cookie is accessible
-                    
-                        setcookie($name, $idLoja, $expiry, $path);
-                    }
                     ?>
                 </tbody>
             </table>
             <div>
-                <button class="btn btn-primary" onclick="window.location.pathname = 'www/web/crud_entrega/crud_entrega_novo.php'">Nova</button>
+                <button class="btn btn-primary" onclick="window.location.pathname = 'www/web/crud_entrega/crud_entrega_criar.php'">Nova</button>
             </div>
         </div>
     </div>

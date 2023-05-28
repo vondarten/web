@@ -16,7 +16,7 @@
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("rowID=" + rowID);
 
-            window.location.href = "../../web/crud_entrega_entregador/crud_entrega_entregador.php";
+            window.location.href = "../../web/crud_entrega_entregador/crud_entrega_entregador_novo.php";
         }
     </script>
     <script src="/shared/consulta_logradouro.js"></script>

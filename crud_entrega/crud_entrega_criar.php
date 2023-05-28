@@ -164,87 +164,81 @@
                         </div>
                         <div class="row">
                             <div class="col-4  mb-3">
-                                <input disabled id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº" value=<?php echo isset($id) ? $id : ''; ?>>
+                                <input id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº" value=<?php echo isset($id) ? $id : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
-                                <input disabled id="order-peso" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Peso" value=<?php echo isset($peso) ? $peso : ''; ?>>
+                                <input id="order-peso" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Peso" value=<?php echo isset($peso) ? $peso : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
-                                <input disabled id="order-altura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Altura" value=<?php echo isset($altura) ? $altura : ''; ?>>
+                                <input id="order-altura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Altura" value=<?php echo isset($altura) ? $altura : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
-                                <input disabled id="order-largura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Largura" value=<?php echo isset($largura) ? $largura : ''; ?>>
+                                <input id="order-largura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Largura" value=<?php echo isset($largura) ? $largura : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
-                                <input disabled id="order-profundidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Profundidade" value=<?php echo isset($profundidade) ? $profundidade : ''; ?>>
+                                <input id="order-profundidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Profundidade" value=<?php echo isset($profundidade) ? $profundidade : ''; ?>>
                             </div>
                             <div class="col-4" mb-3>
                                 <select class="form-select form-select-lg bg-light fs-6">
-                                    <option selected disabled hidden>Status</option>
+                                    <option selected hidden>Status</option>
                                 </select>
                             </div>
                             <div class="col-8 mb-3">
-                                <input disabled id="order-observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação" value=<?php echo isset($observacao) ? $observacao : ''; ?>>
+                                <input id="order-observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação" value=<?php echo isset($observacao) ? $observacao : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-9  mb-3">
-                                <input disabled id="order-destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Destinatário" value=<?php echo isset($destinatario) ? $destinatario : ''; ?>>
+                                <input id="order-destinatario" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Destinatário" value=<?php echo isset($destinatario) ? $destinatario : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input disabled id="login-cpf-cnpj-dest" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-dest')" value=<?php echo isset($destinatarioCPFCNJP) ? $destinatarioCPFCNJP : ''; ?>>
+                                <input id="login-cpf-cnpj-dest" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-dest')" value=<?php echo isset($destinatarioCPFCNJP) ? $destinatarioCPFCNJP : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-9  mb-3">
-                                <input disabled id="order-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador" value=<?php echo isset($entregador) ? $entregador : ''; ?>>
+                                <input id="order-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador" value=<?php echo isset($entregador) ? $entregador : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input disabled id="login-cpf-cnpj-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-entregador')" value=<?php echo isset($entregadorCPF) ? $entregadorCPF : ''; ?>>
+                                <input id="login-cpf-cnpj-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-entregador')" value=<?php echo isset($entregadorCPF) ? $entregadorCPF : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-9  mb-3">
-                                <input disabled id="order-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Loja" value=<?php echo isset($loja) ? $loja : ''; ?>>
+                                <input id="order-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Loja" value=<?php echo isset($loja) ? $loja : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input disabled id="login-cpf-cnpj-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-loja')" value=<?php echo isset($lojaCNPJ) ? $lojaCNPJ : ''; ?>>
+                                <input id="login-cpf-cnpj-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-loja')" value=<?php echo isset($lojaCNPJ) ? $lojaCNPJ : ''; ?>>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-3 mb-3">
-                                <input disabled id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos() value=<?php echo isset($cep) ? $cep : ''; ?>">
+                                <input id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos() value=<?php echo isset($cep) ? $cep : ''; ?>">
                             </div>
                             <div class="col-3 mb-3">
-                                <input id="cadastro-numero" disabled type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Numero" value=<?php echo isset($numero) ? $numero : ''; ?>>
+                                <input id="cadastro-numero" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Numero" value=<?php echo isset($numero) ? $numero : ''; ?>>
                             </div>
                             <div class="col-6 mb-3">
-                                <input disabled id="cadastro-logradouro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Logradouro" value=<?php echo isset($logradouro) ? $logradouro : ''; ?>>
+                                <input id="cadastro-logradouro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Logradouro" value=<?php echo isset($logradouro) ? $logradouro : ''; ?>>
                             </div>
                             <div class="col-6 mb-3">
-                                <input disabled id="cadastro-bairro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Bairro" value=<?php echo isset($bairro) ? $bairro : ''; ?>>
+                                <input id="cadastro-bairro" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Bairro" value=<?php echo isset($bairro) ? $bairro : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input disabled id="cadastro-cidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cidade" value=<?php echo isset($cidade) ? $cidade : ''; ?>>
+                                <input id="cadastro-cidade" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cidade" value=<?php echo isset($cidade) ? $cidade : ''; ?>>
                             </div>
                             <div class="col-3 mb-3">
-                                <input disabled id="cadastro-uf" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="UF" value=<?php echo isset($uf) ? $uf : ''; ?>>
+                                <input id="cadastro-uf" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="UF" value=<?php echo isset($uf) ? $uf : ''; ?>>
                             </div>
                             <div class="input-group mb-3">
-                                <input disabled id="cadastro-complemento" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Complemento" value=<?php echo isset($complemento) ? $complemento : ''; ?>>
+                                <input id="cadastro-complemento" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Complemento" value=<?php echo isset($complemento) ? $complemento : ''; ?>>
                             </div>
                         </div>
 
                         <div class="row col-12 justify-content-center">
 
                             <div class="col-4">
-                                <button disabled type="submit" name="action" id="confirmar-button" class="btn btn-lg btn-success w-100 fs-6" value="update">Confirmar</button>
-                            </div>
-                            <div class="col-4">
-                                <button type="button" id="alterar-button" class="btn btn-lg btn-warning w-100 fs-6">Alterar</button>
-                            </div>
-                            <div class="col-4">
-                                <button type="submit" name="action" class="btn btn-lg btn-danger w-100 fs-6" value="delete">Excluir</button>
+                                <button type="submit" name="action" id="confirmar-button" class="btn btn-lg btn-success w-100 fs-6" value="update" onclick="window.location.pathname = 'www/web/admin_loja/admin_loja.php'">Cadastrar</button>
                             </div>
                         </div>
                     </div>
