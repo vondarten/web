@@ -17,7 +17,7 @@
             xhttp.send("rowID=" + rowID);
 
             // Redirect to the desired page
-            window.location.href = "/web/crud_entrega_entregador/crud_entrega_entregador.php";
+            window.location.pathname = "www/web/crud_entrega_entregador/crud_entrega_entregador.php";
         }
     </script>
     <script src="/shared/consulta_logradouro.js"></script>

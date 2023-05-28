@@ -47,8 +47,7 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100" style="margin-top: -5%;">
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <?php
-            //$idEncomenda = isset($_COOKIE['idEncomenda']) ? $_COOKIE['idEncomenda'] : null;
-            $idEncomenda = 1;
+            $idEncomenda = isset($_COOKIE['idEncomenda']) ? $_COOKIE['idEncomenda'] : null;
 
             if ($idEncomenda) {
                 $server = "localhost";

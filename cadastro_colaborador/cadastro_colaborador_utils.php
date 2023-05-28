@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         
         if ($stmt->affected_rows > 0) {
-            echo '<script> window.location.pathname = "web/login/login.php"; </script>';
+            echo '<script> window.location.pathname = "www/web/login/login.php"; </script>';
         } else {
             $message = 'Error: Erro ao Cadastrar.';
             echo '<script> window.location.href = "cadastro_colaborador.php?error='.urlencode($message).'"; </script>';
