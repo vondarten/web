@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $loja = $_POST['loja'];
     
     $data = '10/01/2023';
-    $status = 'Jogado no mar';
+    $status = 1;
     $id_transportadora = 1;
     $cep = $_POST['cep'];
     $numero = $_POST['numero'];

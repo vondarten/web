@@ -47,7 +47,8 @@
 
     <div class="container d-flex justify-content-center align-items-center min-vh-100" style="margin-top: -5%;">
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
-            <form name="Cadastro" action="crud_entrega_criar_util.php" method="POST">
+
+            <form name="Cadastro" action="./crud_entrega_criar_utils.php" method="POST">
                 <div class="col-md-12">
                     <div class="row align-items-center">
                         <div class="text-center header-text mb-4">
@@ -66,10 +67,10 @@
                         </div>
                         <div class="row">
                             <div class="col-4  mb-3">
-                                <input name="id" id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº">
+                                <input name="id" id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº" value=<?php echo isset($id) ? $id : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
-                                <input name="peso" id="order-peso" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Peso">
+                                <input name="peso" id="order-peso" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Peso" value=<?php echo isset($peso) ? $peso : ''; ?>>
                             </div>
                             <div class="col-2 mb-3">
                                 <input name="altura" id="order-altura" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Altura" value=<?php echo isset($altura) ? $altura : ''; ?>>
@@ -140,7 +141,7 @@
                         <div class="row col-12 justify-content-center">
 
                             <div class="col-4">
-                                <button type="submit" name="action" id="confirmar-button" class="btn btn-lg btn-success w-100 fs-6" value="update">Cadastrar</button>
+                                <button class="btn btn-lg btn-success w-100 fs-6" onclick="window.location.pathname = 'www/web/admin_loja/admin_loja.php'">Cadastrar</button>
                             </div>
                         </div>
                     </div>
