@@ -25,26 +25,26 @@
                         <h1>Olá!</h1>
                         <h3>Consulte o status da sua encomenda</h3>
                     </div>
-                    <div id="alert">
-                        <?php
-                        if (isset($_GET['error'])) {
-                            $errorMessage = urldecode($_GET['error']);
-                            echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>';
-                        } elseif (isset($_GET['success'])) {
-                            echo '<div class="alert alert-success" role="alert">Cadastrado com sucesso.</div>';
-                        }
-                        ?>
-                    </div>
                     <form name="Cadastro" action="./consulta_status_utils.php" method="POST">
                         <div class="row">
                             <div class="col-12 mb-3">
                                 <input id="login-cpf-cnpj" type="text" name="dados" class="form-control form-control-lg bg-light fs-6" placeholder="CPF ou CNPJ" onblur="formatInputNumber()">
                             </div>
-
+                            
                             <div class="col-12 mb-3">
                                 <input id="cadastro-uf" type="text" name="codigo" class="form-control form-control-lg bg-light fs-6" placeholder="Código de rastreio">
                             </div>
-
+                            <div id="alert">
+                                <?php
+                                if (isset($_GET['error'])) {
+                                    $errorMessage = urldecode($_GET['error']);
+                                    echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>';
+                                } elseif (isset($_GET['success'])) {
+                                    $successMessage = urldecode($_GET['success']);
+                                    echo '<div class="alert alert-success" role="alert">' .$successMessage .'</div>';
+                                }
+                                ?>
+                            </div>
                             <div class="input-group mb-3">
                                 <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Consultar</button>
                             </div>
