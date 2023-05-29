@@ -40,24 +40,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         else{
             echo "$row[0]";
-            $valDados = $conn->prepare("SELECT * FROM `ENCOMENDA` WHERE ID_DESTINATARIO = ? AND ID_ENCOMENDA = ?");
-            $valDados->bind_param('ii', $row['ID_DESTINATARIO'],$codigo);
+            $valDados = $conn->prepare("SELECT `ID_STATUS` FROM `ENCOMENDA` WHERE ID_DESTINATARIO = ? AND ID_ENCOMENDA = ?");
+            $valDados->bind_param('ii', $row['ID_DESTINATARIO'], $codigo);
             $valDados->execute();
             $resultVal = $valDados->get_result();
             
+            $row = $resultVal->fetch_assoc();
+            $id_status = $row['ID_STATUS'];
+            
+            $valDados = $conn->prepare("SELECT `NOME` FROM `STATUS` WHERE ID_STATUS = ?");
+            $valDados->bind_param('i', $id_status);
+            $valDados->execute();
+            $resultVal = $valDados->get_result();
+
             if (!$resultVal) {
                 $message = "Error: Erro ao Pesquisar.";
                 echo '<script> window.location.href = "consulta_status.php?error='.urlencode($message).' "; </script>';
             }
             
             $rowEncomenda = $resultVal->fetch_assoc();
+            $id_status = $rowEncomenda['NOME'];
+
             $valDados->close();
+
             if($rowEncomenda == null){
                 $message = 'Error: Código não encontrado para esse CPF/CNPJ.';
                 echo '<script> window.location.href = "consulta_status.php?error='.urlencode($message).'"; </script>';
             }
             else{
-                echo '<script> window.location.href = "consulta_status.php?success"; </script>';
+                $message = "Status do Pedido: $id_status";               
+                echo '<script> window.location.href = "consulta_status.php?success='.urlencode($message).'"; </script>';
             }
         }
         $conn->close();
