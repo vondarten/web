@@ -93,7 +93,8 @@
                         $idLoja = $_COOKIE['idLoja'];
                     }
                     else{
-                        $idLoja = 1;
+                        $message = 'Faça login para acessar.';
+                        echo '<script> window.location.pathname = "www/web/login/login.php"; </script>';
                     }
 
                     // Connect to your MySQL database

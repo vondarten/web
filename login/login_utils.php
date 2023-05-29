@@ -36,11 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $expiry = time() + (86400 * 30); // Expiry time in seconds (30 days from now)
             $path = "/"; // Path on the domain where the cookie is accessible
         
-            setcookie($name, $idLoja, $expiry, $path);
+            setcookie($name, $value, $expiry, $path);
             echo '<script> window.location.pathname = "www/web/admin_entregador/admin_entregador.php"; </script>';
         } else {
             $temp = $stmt->num_rows;
-            $message = "Error: Erro ao Cadastrar $temp $dados $senha";
+            $message = "CPF ou Senha inválidos";
             echo '<script> window.location.href = "login.php?error='.urlencode($message).'"; </script>';
         }
         
@@ -64,15 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo '<script> window.location.pathname = "www/web/admin_loja/admin_loja.php"; </script>';
         } else {
             $temp = $stmt->num_rows;
-            $message = "Error: Erro ao Cadastrar $temp $dados $senha";
+            $message = "CNPJ ou Senha inválidos";
             echo '<script> window.location.href = "login.php?error='.urlencode($message).'"; </script>';
         }
         
         $stmt->close();
     }
     else {
-        $message = 'Error: Erro ao Cadastrar.';
-        echo '<script> window.location.href = "cadastro_loja.php?error='.urlencode($message).'"; </script>';
+        $message = 'Valor inválido para CNPJ ou CPF';
+        echo '<script> window.location.href = "login.php?error='.urlencode($message).'"; </script>';
     }
 }
 ?>

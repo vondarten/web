@@ -16,7 +16,7 @@
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("rowID=" + rowID);
 
-            window.location.href = "../../web/crud_entrega_entregador/crud_entrega_entregador_novo.php";
+            window.location.href = "../../web/crud_entrega_entregador/crud_entrega_entregador.php";
         }
     </script>
     <script src="/shared/consulta_logradouro.js"></script>
@@ -92,10 +92,10 @@
                 <?php
                     if(isset($_COOKIE['idEntregador'])){
                         $idEntregador = $_COOKIE['idEntregador'];
-                        echo"<p> $idEntregador;</p>";
                     }
                     else{
-                        $idEntregador = 1;
+                        $message = 'Faça login para acessar.';
+                        echo '<script> window.location.pathname = "www/web/login/login.php"; </script>';
                     }
                     // Connect to your MySQL database
                     $server = "localhost";
