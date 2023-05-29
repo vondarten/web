@@ -19,9 +19,6 @@
             window.location.href = "../../web/crud_entrega/crud_entrega_novo.php";
         }
     </script>
-
-    <script src="./admin_loja.js"></script>
-    <script src="/shared/consulta_logradouro.js"></script>
     <title>Admin - Loja</title>
 </head>
 

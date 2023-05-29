@@ -1,23 +1,23 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $peso = $_POST['peso'];
     
     if(isset($_COOKIE['idLoja'])){
         $idLoja = $_COOKIE['idLoja'];
     } 
-
+    
+    $peso = $_POST['peso'];
     $altura = $_POST['altura'];
     $largura = $_POST['largura'];
     $profundidade = $_POST['profundidade'];
+    $idStatus = $_POST['status'];
     $observacao = $_POST['observacao'];
+    $dataPrevista = $_POST['data_prevista'];
     $destinatario = $_POST['destinatario'];
-    $destinatarioCPFCNPJ = $_POST['destinatarioCPFCNPJ'];
-
-    $idEntregador = 1;
+    $string = $_POST['destinatarioCPFCNPJ'];
+    $destinatarioCPFCNPJ = str_replace(array('.', '/', '-'), '', $string);
     
     $data = '10/01/2023';
-    $status = 1;
     $id_transportadora = 1;
     $cep = $_POST['cep'];
     $numero = $_POST['numero'];
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>'; 
     }
 
-    if (!$peso || !$altura || !$largura || !$profundidade|| !$status || !$observacao || !$destinatario || !$destinatarioCPFCNPJ || !$idLoja || !$id_transportadora || !$cep || !$numero || !$logradouro || !$bairro || !$cidade || !$uf) {
+    if (!$peso || !$altura || !$largura || !$profundidade|| !$idStatus || !$observacao || !$dataPrevista ||!$destinatario || !$destinatarioCPFCNPJ || !$idLoja || !$id_transportadora || !$cep || !$numero || !$logradouro || !$bairro || !$cidade || !$uf) {
         $message = 'Error: Preencha todos os campos.';
         echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
     } else {
@@ -92,14 +92,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $idEndereco = $row['ID_ENDERECO'];
         }
 
+        $valDest = $conn->prepare("SELECT `ID_DESTINATARIO` FROM `DESTINATARIO` WHERE CPF_CNPJ = ?");
+        $valDest->bind_param('s', $destinatarioCPFCNPJ);
+        $valDest->execute();
+        $resultDest = $valDest->get_result();
+
+        if (!$valDest) {
+            $message = 'Error: Erro ao Cadastrar.';
+            echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
+        }
+
+        $valDest->close();
+
+        $row = $resultDest->fetch_assoc();
+        if ($row == null) {
+            $stmt = $conn->prepare('INSERT INTO DESTINATARIO (NOME,CPF_CNPJ,ID_ENDERECO) VALUES (?, ?, ?)');
+            $stmt->bind_param('ssi', $destinatario, $destinatarioCPFCNPJ, $idEndereco);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+            } else {
+                $message = 'Error: Erro ao Cadastrar.';
+                echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
+            }
+
+            $stmt->close();
+
+            $valDest = $conn->prepare("SELECT `ID_DESTINATARIO` FROM `DESTINATARIO` WHERE CPF_CNPJ = ?");
+            $valDest->bind_param('s', $destinatarioCPFCNPJ);
+            $valDest->execute();
+            $resultDest = $valDest->get_result();
+
+            $valDest->close();
+
+            if (!$resultDest) {
+                $message = 'Error: Erro ao Encontrar Destinatario.';
+                echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
+            }
+
+            $row = $resultDest->fetch_assoc();
+            $idDestinatario = $row['ID_DESTINATARIO'];
+        } else {
+            $idDestinatario = $row['ID_DESTINATARIO'];
+        }
+
+        $getEnt = $conn->prepare("SELECT `ID_ENTREGADOR` FROM `ENTREGADOR`");
+        $getEnt->execute();
+        $resultEnt = $getEnt->get_result();
+
+        $rows = $resultEnt->fetch_all(MYSQLI_ASSOC);
+
+        shuffle($rows);
+
+        $randomResult = null;
+        if (!empty($rows)) {
+            $idEntregador = $rows[0]['ID_ENTREGADOR'];
+        }
+
+        $getEnt->close();
+
+        $rowEnt = $resultEnt->fetch_assoc();
+
         $stmt = $conn->prepare('INSERT INTO ENCOMENDA (PESO, ALTURA, LARGURA, PROFUNDIDADE, DATA_PREVISTA, OBSERVACAO, ID_ENTREGADOR, ID_LOJA, ID_DESTINATARIO, ID_STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->bind_param('ddddssiiis', $peso, $altura, $largura, $profundidade, $data, $observacao, $idEntregador, $idLoja, $destinatario, $status);
+        $stmt->bind_param('ddddssiiii', $peso, $altura, $largura, $profundidade, $dataPrevista, $observacao, $idEntregador, $idLoja, $idDestinatario, $idStatus);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
             echo '<script> window.location.href = "crud_entrega_criar.php?success"; </script>';
         } else {
-            $message = 'Error: Erro ao Cadastrar.';
+            $tmp = $stmt->error;
+            $message = "Error: Erro ao Cadastrar. $tmp $idDestinatario";
             echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
         }
 
