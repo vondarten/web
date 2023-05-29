@@ -99,22 +99,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-9  mb-3">
-                                <input name="entregador" id="order-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Entregador" value=<?php echo isset($entregador) ? $entregador : ''; ?>>
-                            </div>
-                            <div class="col-3 mb-3">
-                                <input name="entregadorCPF" id="login-cpf-cnpj-entregador" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-entregador')" value=<?php echo isset($entregadorCPF) ? $entregadorCPF : ''; ?>>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-9  mb-3">
-                                <input name="loja" id="order-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Loja" value=<?php echo isset($loja) ? $loja : ''; ?>>
-                            </div>
-                            <div class="col-3 mb-3">
-                                <input name="lojaCNPJ" id="login-cpf-cnpj-loja" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CPF/CNPJ" onblur="formatInputNumber('login-cpf-cnpj-loja')" value=<?php echo isset($lojaCNPJ) ? $lojaCNPJ : ''; ?>>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-3 mb-3">
                                 <input name="cep" id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos() value=<?php echo isset($cep) ? $cep : ''; ?>">
                             </div>
