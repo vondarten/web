@@ -16,7 +16,7 @@
         <div class="row col-12 d-flex">
 
             <div class="col-4">
-                <a class="navbar-brand d-flex align-items-center mx-5" href="#" style="font-weight: 800 !important; color: #070f52 !important;">
+                <a class="navbar-brand d-flex align-items-center mx-5" href="#">
                     <img src="../img/logo.png" alt="Logo" class="logo-img">
                     <b class="mr-2 navbar-text">IP Logistics</b>
                 </a>
@@ -25,7 +25,10 @@
             <div class="col-4">
                 <ul class="navbar-nav align-items-center justify-content-center" style="height: 100%;">
                     <li class="nav-item mx-3">
-                        <a class="nav-link navbar-text " href="../admin_entregador/admin_entregador.php">Consultar Entregas</a>
+                        <a class="nav-link navbar-text " href="../admin_entregador/admin_entregador.php">Entregas</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link navbar-text" href="../cadastro_colaborador/cadastro_colaborador.php">Cadastrar colaborador</a>
                     </li>
                 </ul>
             </div>
@@ -40,9 +43,8 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>    
     </nav>
-
     <div class="container d-flex justify-content-center align-items-center min-vh-100" style="margin-top: -5%;">
         <div class="row border rounded-5 p-3 bg-white shadow box-area">
             <?php
@@ -164,6 +166,7 @@
                     <div class="row align-items-center">
                         <div class="text-center header-text mb-4">
                             <h3>Encomenda</h3>
+                            <h6>(Mude o status para poder salvar)</h6>
                         </div>
                         <?php
                         if (isset($_GET['error'])) {
@@ -213,7 +216,6 @@
                                             else
                                                 echo "<option value=$value> $name</option>";
                                         }
-                                    
                                     ?>
                                 </select>
                             </div>
@@ -221,7 +223,7 @@
                                 <input disabled id="order-observacao" name="observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação">
                             </div>
                             <div class="col-4 mb-3">
-                                <input disabled id="order-data-prevista" name="data_prevista" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Data Prevista">
+                                <input disabled id="order-data-prevista" name="data_prevista" type="date" class="form-control form-control-lg bg-light fs-6" placeholder="Data Prevista">
                             </div>
                         </div>
                         <div class="row">
@@ -250,7 +252,7 @@
                         </div>
                         <div class="row">
                             <div class="col-3 mb-3">
-                                <input disabled id="cadastro-cep" name='cep' type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos()">
+                                <input disabled id="cadastro-cep" name='cep' type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos();formatCep('cadastro-cep')">
                             </div>
                             <div class="col-3 mb-3">
                                 <input disabled id="cadastro-numero"type="text" name="numero" class="form-control form-control-lg bg-light fs-6" placeholder="Numero">
@@ -280,7 +282,7 @@
                                 <button type="button" id="alterar-button" class="btn btn-lg btn-warning w-100 fs-6">Alterar</button>
                             </div>
                             <div class="col-4">
-                                <button type="submit" name="action" class="btn btn-lg btn-danger w-100 fs-6" value="delete">Excluir</button>
+                                <button disabled type="submit" name="action" class="btn btn-lg btn-danger w-100 fs-6" value="delete">Excluir</button>
                             </div>
                         </div>
                     </div>
@@ -403,10 +405,12 @@
 
         const alterarButton = document.getElementById('alterar-button');
         const confirmarButton = document.querySelector(".btn-success");
+        const deletarButton = document.querySelector(".btn-danger");
 
         alterarButton.addEventListener('click', function() {
             confirmarButton.disabled = !confirmarButton.disabled
             alterarButton.disabled = !alterarButton.disabled 
+            deletarButton.disabled = !deletarButton.disabled
             invertFields();
         });
 

@@ -17,3 +17,27 @@ async function atualizaCampos() {
     document.getElementById("cadastro-cidade").value = json.localidade;
     document.getElementById("cadastro-uf").value = json.uf;
 }
+
+function returnCEPformated(number){
+    const cleanedNumber = number.replace(/\D/g, '');
+    const mask = '00.000-000';
+
+    let formattedNumber = '';
+    let index = 0;
+    for (let i = 0; i < mask.length; i++) {
+        if (mask[i] === '0') {
+            formattedNumber += cleanedNumber[index] || '';
+            index++;
+        } else {
+            formattedNumber += mask[i];
+        }
+    }
+    return formattedNumber;
+}
+function formatCep(id) {
+    const numberInput = document.getElementById(id);
+    const inputValue = numberInput.value;
+
+    const formattedNumber = returnCEPformated(inputValue);
+    numberInput.value = formattedNumber;
+}

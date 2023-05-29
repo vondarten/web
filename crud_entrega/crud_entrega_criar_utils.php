@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $data = '10/01/2023';
     $id_transportadora = 1;
-    $cep = $_POST['cep'];
+    $stringCep = $_POST['cep'];
+    $cep = str_replace(array('.', '/', '-'), '', $stringCep);
     $numero = $_POST['numero'];
     $logradouro = $_POST['logradouro'];
     $bairro = $_POST['bairro'];

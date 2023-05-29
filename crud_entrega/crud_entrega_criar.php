@@ -66,7 +66,7 @@
                         </div>
                         <div class="row">
                             <div class="col-4  mb-3">
-                                <input name="id" id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº">
+                                <input disabled name="id" id="order-n" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nº">
                             </div>
                             <div class="col-2 mb-3">
                                 <input name="peso" id="order-peso" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Peso">
@@ -113,7 +113,7 @@
                                 <input name="observacao" id="order-observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação">
                             </div>
                             <div class="col-4 mb-3">
-                                <input name="data_prevista" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Data Prevista">
+                                <input id="data-prevista" name="data_prevista" type="date" class="form-control form-control-lg bg-light fs-6" placeholder="Data Prevista" onblur="formatInputData('data-prevista')">
                             </div>
                         </div>
                         <div class="row">
@@ -126,7 +126,7 @@
                         </div>
                         <div class="row">
                             <div class="col-3 mb-3">
-                                <input name="cep" id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos()">
+                                <input name="cep" id="cadastro-cep" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos();formatCEP('cadastro-cep')">
                             </div>
                             <div class="col-3 mb-3">
                                 <input name="numero" id="cadastro-numero" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Numero">
@@ -187,6 +187,29 @@
             const inputValue = numberInput.value;
 
             const formattedNumber = formatNumber(inputValue);
+            numberInput.value = formattedNumber;
+        }
+                function returnCEPformated(number){
+            const cleanedNumber = number.replace(/\D/g, '');
+            const mask = '00.000-000';
+
+            let formattedNumber = '';
+            let index = 0;
+            for (let i = 0; i < mask.length; i++) {
+                if (mask[i] === '0') {
+                    formattedNumber += cleanedNumber[index] || '';
+                    index++;
+                } else {
+                    formattedNumber += mask[i];
+                }
+            }
+            return formattedNumber;
+        }
+        function formatCEP(id) {
+            const numberInput = document.getElementById(id);
+            const inputValue = numberInput.value;
+
+            const formattedNumber = returnCEPformated(inputValue);
             numberInput.value = formattedNumber;
         }
     </script>

@@ -114,7 +114,7 @@
                                 die('Query failed: ' . $conn->error);
                             }
                         } else {
-                            $result = $conn->query("SELECT * FROM encomenda WHERE ID_ENCOMENDA = $searchNumber");
+                            $result = $conn->query("SELECT * FROM encomenda WHERE ID_ENCOMENDA = $searchNumber AND ID_LOJA = $idLoja");
                             if (!$result) {
                                 die('Query failed: ' . $conn->error);
                             }

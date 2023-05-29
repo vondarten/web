@@ -3,7 +3,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $razaoSocial = $_POST['razao-social'];
     $string = $_POST['cnpj'];
     $cnpj = str_replace(array('.', '/', '-'), '', $string);
-    $cep = $_POST['cep'];
+    $stringCep = $_POST['cep'];
+    $cep = str_replace(array('.', '/', '-'), '', $stringCep);
     $numero = $_POST['numero'];
     $logradouro = $_POST['logradouro'];
     $bairro = $_POST['bairro'];

@@ -166,6 +166,7 @@
                     <div class="row align-items-center">
                         <div class="text-center header-text mb-4">
                             <h3>Encomenda</h3>
+                            <h6>(Mude o status para poder salvar)</h6>
                         </div>
                         <?php
                         if (isset($_GET['error'])) {
@@ -223,7 +224,7 @@
                                 <input disabled id="order-observacao" name="observacao" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Observação">
                             </div>
                             <div class="col-4 mb-3">
-                                <input disabled id="order-data-prevista" name="data_prevista" type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Data Prevista">
+                                <input disabled id="order-data-prevista" name="data_prevista" type="date" class="form-control form-control-lg bg-light fs-6" placeholder="Data Prevista">
                             </div>
                         </div>
                         <div class="row">
@@ -252,7 +253,7 @@
                         </div>
                         <div class="row">
                             <div class="col-3 mb-3">
-                                <input disabled id="cadastro-cep" name='cep' type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos()">
+                                <input disabled id="cadastro-cep" name='cep' type="text" class="form-control form-control-lg bg-light fs-6" placeholder="CEP" onblur="atualizaCampos(); formatCep('cadastro-cep')">
                             </div>
                             <div class="col-3 mb-3">
                                 <input disabled id="cadastro-numero" type="text" name="numero" class="form-control form-control-lg bg-light fs-6" placeholder="Numero">

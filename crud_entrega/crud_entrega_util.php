@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $loja = $_POST['loja'];
     $stringLoja = $_POST['cnpj_loja'];
     $lojaCNPJ = str_replace(array('.', '/', '-'), '', $stringLoja);
-    $cep = $_POST['cep'];
+    $stringCEP = $_POST['cep'];
+    $cep = str_replace(array('.', '/', '-'), '', $stringCEP);
     $numero = $_POST['numero'];
     $logradouro = $_POST['logradouro'];
     $bairro = $_POST['bairro'];
@@ -149,6 +150,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $idDestinatario = $row['ID_DESTINATARIO'];
                 }
+
+                $updateDest = $conn->prepare("UPDATE DESTINATARIO SET ID_ENDERECO = ? WHERE ID_DESTINATARIO = ?");
+                $updateDest->bind_param('ii', $idEndereco,$idDestinatario);
+                $updateDest->execute();
+                $result = $updateDest->get_result();
+
+                $updateDest->close();
 
                 $update = $conn->prepare("UPDATE ENCOMENDA SET PESO = ?, ALTURA = ?, LARGURA = ?, PROFUNDIDADE = ?, DATA_PREVISTA = ?, OBSERVACAO = ?, ID_ENTREGADOR = ?, ID_LOJA = ?, ID_DESTINATARIO = ?, ID_STATUS = ? WHERE ID_ENCOMENDA = ?");
                 $update->bind_param('ddddssiiiii', $peso, $altura, $largura, $profundidade, $dataPrevista, $observacao, $idEntregador, $idLoja, $idDestinatario, $status, $id);

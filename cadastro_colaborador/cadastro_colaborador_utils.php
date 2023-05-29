@@ -2,13 +2,15 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = $_POST['nome'];
     $idade = $_POST['idade'];
-    $cpf = $_POST['cpf'];
+    $stringcpf = $_POST['cpf'];
+    $cpf = str_replace(array('.', '/', '-'), '', $stringcpf);
     $cat_cnh = isset($_POST['cat_cnh']) ? $_POST['cat_cnh'] : null;
     $tem_cat_a = isset($_POST['tem_cat_a']) ? $_POST['tem_cat_a'] : 0;;
     $senha = 123456789;
     $senhaConf = 123456789;
     $id_transportadora = 1;
-    $cep = $_POST['cep'];
+    $stringCep = $_POST['cep'];
+    $cep = str_replace(array('.', '/', '-'), '', $stringCep);
     $numero = $_POST['numero'];
     $logradouro = $_POST['logradouro'];
     $bairro = $_POST['bairro'];
