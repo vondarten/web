@@ -1,15 +1,20 @@
 <?php
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $peso = $_POST['peso'];
+    
+    if(isset($_COOKIE['idLoja'])){
+        $idLoja = $_COOKIE['idLoja'];
+    } 
+
     $altura = $_POST['altura'];
     $largura = $_POST['largura'];
     $profundidade = $_POST['profundidade'];
     $observacao = $_POST['observacao'];
     $destinatario = $_POST['destinatario'];
     $destinatarioCPFCNPJ = $_POST['destinatarioCPFCNPJ'];
-    $entregador = $_POST['entregador'];
-    $entregadorCPF = $_POST['entregadorCPF'];
-    $loja = $_POST['loja'];
+
+    $idEntregador = 1;
     
     $data = '10/01/2023';
     $status = 1;
@@ -27,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>'; 
     }
 
-    if (!$peso || !$altura || !$largura || !$profundidade|| !$status || !$observacao || !$destinatario || !$destinatarioCPFCNPJ || !$entregador || !$entregadorCPF || !$loja || !$id_transportadora || !$cep || !$numero || !$logradouro || !$bairro || !$cidade || !$uf) {
+    if (!$peso || !$altura || !$largura || !$profundidade|| !$status || !$observacao || !$destinatario || !$destinatarioCPFCNPJ || !$idLoja || !$id_transportadora || !$cep || !$numero || !$logradouro || !$bairro || !$cidade || !$uf) {
         $message = 'Error: Preencha todos os campos.';
         echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
     } else {
@@ -87,36 +92,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $idEndereco = $row['ID_ENDERECO'];
         }
 
+        $stmt = $conn->prepare('INSERT INTO ENCOMENDA (PESO, ALTURA, LARGURA, PROFUNDIDADE, DATA_PREVISTA, OBSERVACAO, ID_ENTREGADOR, ID_LOJA, ID_DESTINATARIO, ID_STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt->bind_param('ddddssiiis', $peso, $altura, $largura, $profundidade, $data, $observacao, $idEntregador, $idLoja, $destinatario, $status);
+        $stmt->execute();
 
-        $valEntregador = $conn->prepare("SELECT `ID_ENTREGADOR` FROM `ENTREGADOR` WHERE CPF = ?");
-        $valEntregador->bind_param('s', $cpf);
-        $valEntregador->execute();
-        $resultValL = $valEntregador->get_result();
-
-        if (!$resultVal) {
+        if ($stmt->affected_rows > 0) {
+            echo '<script> window.location.href = "crud_entrega_criar.php?success"; </script>';
+        } else {
             $message = 'Error: Erro ao Cadastrar.';
             echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
         }
 
-        $rowL = $resultValL->fetch_assoc();
-        if ($rowL == null) {
-            $stmt = $conn->prepare('INSERT INTO ENCOMENDA (PESO, ALTURA, LARGURA, PROFUNDIDADE, DATA_PREVISTA, OBSERVACAO, ID_ENTREGADOR, ID_LOJA, ID_DESTINATARIO, ID_STATUS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-            $stmt->bind_param('ddddssiiis', $peso, $altura, $largura, $profundidade, $data, $observacao, $entregador, $loja, $destinatario, $status);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                echo '<script> window.location.href = "crud_entrega_criar.php?success"; </script>';
-            } else {
-                $message = 'Error: Erro ao Cadastrar.';
-                echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
-            }
-
-            $stmt->close();
-        } else {
-            $message = 'Error: Entregador já Cadastrada.';
-            echo '<script> window.location.href = "crud_entrega_criar.php?error=' . urlencode($message) . '"; </script>';
-        }
-
+        $stmt->close();
         $conn->close();
         
     }

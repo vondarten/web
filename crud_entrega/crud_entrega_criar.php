@@ -84,6 +84,30 @@
                             <div class="col-4" mb-3>
                                 <select class="form-select form-select-lg bg-light fs-6">
                                     <option name="status" selected hidden>Status</option>
+                                    <?php
+                                    $dbHost = 'localhost';
+                                    $dbUser = 'root';
+                                    $dbPass = '';
+                                    $dbName = 'lojaentregas';
+
+                                    $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+
+                                    $result = $conn->query("SELECT * FROM STATUS");
+                                    if (!$result) {
+                                        $message = 'Error: Erro ao Listas Status.';
+                                        echo '<script> window.location.href = "cadastro_colaborador.php?error=' . urlencode($message) . '"; </script>';
+                                    };
+
+                                    while ($row = $result->fetch_assoc()) {
+                                        $value = $row['ID_STATUS'];
+                                        $name = $row['NOME'];
+                                        if ($value == $idStatus)
+                                            echo "<option selected value=$value> $name</option>";
+                                        else
+                                            echo "<option value=$value> $name</option>";
+                                    }
+
+                                    ?>
                                 </select>
                             </div>
                             <div class="col-8 mb-3">
