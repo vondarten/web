@@ -170,7 +170,7 @@
                             $errorMessage = urldecode($_GET['error']);
                             echo '<div class="alert alert-danger" role="alert">' . $errorMessage . '</div>';
                         } elseif (isset($_GET['success'])) {
-                            echo '<div class="alert alert-success" role="alert">Cadastrado com sucesso.</div>';
+                            echo '<div class="alert alert-success" role="alert">Alterado com sucesso.</div>';
                         }
                         ?>
                         <div class="row">
